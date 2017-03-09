@@ -1,10 +1,12 @@
 package factories;
 
-public class ExternallyProvidedTripFactory extends TripFactory
+import model.Trip;
+
+public class ExternallyProvidedTripFactory implements TripProvider
 {
 	private static ExternallyProvidedTripFactory INSTANCE;
 	
-	static ExternallyProvidedTripFactory getInstance()
+	static TripProvider getInstance()
 	{
 		if (null == INSTANCE)
 		{
@@ -12,5 +14,11 @@ public class ExternallyProvidedTripFactory extends TripFactory
 		}
 
 		return INSTANCE;
+	}
+
+	@Override
+	public Trip getTrip(boolean residential) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

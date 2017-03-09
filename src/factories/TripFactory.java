@@ -4,9 +4,9 @@ import model.ExternalProvider;
 import model.Teacher;
 import model.TripOrganizer;
 
-public abstract class TripFactory
+public class TripFactory
 {
-	static final TripFactory getFactory(TripOrganizer organiser)
+	static final TripProvider getTripFactory(TripOrganizer organiser)
 	{
 		if (organiser instanceof Teacher)
 		{

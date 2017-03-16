@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.ExternalProvider;
 import model.Student;
 import model.Teacher;
 
@@ -30,6 +31,7 @@ public class MainApp extends Application {
      */
     private final ObservableList<Student> studentData = FXCollections.observableArrayList();
     private final ObservableList<Teacher> teacherData = FXCollections.observableArrayList();
+    private final ObservableList<ExternalProvider> externalProviderData = FXCollections.observableArrayList();
 
     /**
      * Constructor
@@ -40,6 +42,8 @@ public class MainApp extends Application {
         studentData.add(new Student("98234987", "Ruth", "Mueller"));
         studentData.add(new Student("98244987", "Heinz", "Kurz"));
         studentData.add(new Student("12356777", "Cornelia", "Meier"));
+        teacherData.add(new Teacher("Simon", "Rood"));
+        teacherData.add(new Teacher("Ben", "Clist"));
     }
 
     /**
@@ -109,7 +113,7 @@ public class MainApp extends Application {
      */
     public void showTeacherOverview() {
         try {
-            // Load student overview.
+            // Load teacher overview.
             final FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("../view/TeacherOverview.fxml"));
             final AnchorPane teacherOverview = (AnchorPane) loader.load();

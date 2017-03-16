@@ -1,12 +1,17 @@
 package model;
 
-public class Teacher extends Person implements TripOrganiser
+public class Teacher extends Person implements TripOrganizer
 {
 	public Teacher(final String forename, final String surname)
 	{
 		super(forename, surname);
 	}
 	
+	public Teacher()
+	{
+		this(null, null);
+	}
+
 	@Override
 	public boolean equals(final Object o)
 	{

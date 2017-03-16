@@ -68,7 +68,7 @@ public class MainApp extends Application {
         try {
             // Load root layout from fxml file.
             final FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -87,7 +87,7 @@ public class MainApp extends Application {
         try {
             // Load student overview.
             final FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/StudentOverview.fxml"));
+            loader.setLocation(MainApp.class.getResource("../view/StudentOverview.fxml"));
             final AnchorPane studentOverview = (AnchorPane) loader.load();
 
             // Set student overview into the first root tab
@@ -111,7 +111,7 @@ public class MainApp extends Application {
         try {
             // Load student overview.
             final FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/TeacherOverview.fxml"));
+            loader.setLocation(MainApp.class.getResource("../view/TeacherOverview.fxml"));
             final AnchorPane teacherOverview = (AnchorPane) loader.load();
 
             // Set teacher overview into the first root tab
@@ -140,7 +140,7 @@ public class MainApp extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             final FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/StudentEditDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("../view/StudentEditDialog.fxml"));
             final AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
@@ -178,7 +178,7 @@ public class MainApp extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             final FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/TeacherEditDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("../view/TeacherEditDialog.fxml"));
             final AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.

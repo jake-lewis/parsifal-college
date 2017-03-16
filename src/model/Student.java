@@ -1,20 +1,38 @@
 package model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Student extends Person
 {
-	private final String mobile;
+	private final StringProperty mobile;
 
 	public Student(final String mobile, final String forename, final String surname)
 	{
 		super(forename, surname);
-		this.mobile = mobile;
+		this.mobile = new SimpleStringProperty(mobile);
 	}
 
+	public Student()
+	{
+		this(null, null, null);
+	}
+	
 	public String getMobile()
+	{
+		return this.mobile.get();
+	}
+
+	public StringProperty getMobileProperty()
 	{
 		return this.mobile;
 	}
 
+	public void setMobile(final String mobile)
+	{
+		this.mobile.set(mobile);
+	}
+	
 	@Override
 	public boolean equals(final Object o)
 	{

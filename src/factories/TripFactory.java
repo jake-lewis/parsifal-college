@@ -2,11 +2,11 @@ package factories;
 
 import model.ExternalProvider;
 import model.Teacher;
-import model.TripOrganiser;
+import model.TripOrganizer;
 
 public abstract class TripFactory
 {
-	static final TripFactory getFactory(TripOrganiser organiser)
+	static final TripFactory getFactory(final TripOrganizer organiser)
 	{
 		if (organiser instanceof Teacher)
 		{

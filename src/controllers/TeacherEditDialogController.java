@@ -5,21 +5,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Student;
+import model.Teacher;
 
 
-public class StudentEditDialogController {
+public class TeacherEditDialogController {
 
     @FXML
     private TextField firstNameField;
     @FXML
     private TextField lastNameField;
-    @FXML
-    private TextField mobileField;
 
 
     private Stage dialogStage;
-    private Student student;
+    private Teacher teacher;
     private boolean okClicked = false;
 
     /**
@@ -40,16 +38,15 @@ public class StudentEditDialogController {
     }
 
     /**
-     * Sets the student to be edited in the dialog.
+     * Sets the teacher to be edited in the dialog.
      * 
-     * @param student
+     * @param teacher
      */
-    public void setStudent(final Student student) {
-        this.student = student;
+    public void setTeacher(final Teacher teacher) {
+        this.teacher = teacher;
 
-        firstNameField.setText(student.getForename());
-        lastNameField.setText(student.getSurname());
-        mobileField.setText(student.getMobile());
+        firstNameField.setText(teacher.getForename());
+        lastNameField.setText(teacher.getSurname());
     }
 
     /**
@@ -67,9 +64,8 @@ public class StudentEditDialogController {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            student.setForename(firstNameField.getText());
-            student.setSurname(lastNameField.getText());
-            student.setMobile(mobileField.getText());
+            teacher.setForename(firstNameField.getText());
+            teacher.setSurname(lastNameField.getText());
 
             okClicked = true;
             dialogStage.close();
@@ -96,10 +92,7 @@ public class StudentEditDialogController {
             errorMessage += "No valid first name!\n"; 
         }
         if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
-            errorMessage += "No valid last name!\n"; 
-        }
-        if (mobileField.getText() == null || mobileField.getText().length() == 0) {
-            errorMessage += "No valid mobile!\n"; 
+            errorMessage += "No valid last name!\n";
         }
 
         if (errorMessage.length() == 0) {

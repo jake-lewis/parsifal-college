@@ -2,17 +2,25 @@ package model;
 
 import java.util.UUID;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public abstract class Person
 {
 	//Generate unique ID
 	private final UUID id = UUID.randomUUID();
-	private final String forename;
-	private final String surname;
+	private final StringProperty forename;
+	private final StringProperty surname;
+	
+	public Person()
+	{
+		this(null, null);
+	}
 	
 	public Person(final String forename, final String surname)
 	{
-		this.forename = forename;
-		this.surname = surname;
+		this.forename = new SimpleStringProperty(forename);
+		this.surname = new SimpleStringProperty(surname);
 	}
 	
 	public UUID getId()
@@ -22,17 +30,37 @@ public abstract class Person
 	
 	public String getForename()
 	{
-		return forename;
+		return this.forename.get();
 	}
 	
 	public String getSurname()
 	{
+		return this.surname.get();
+	}
+	
+	public StringProperty getForenameProperty()
+	{
+		return forename;
+	}
+	
+	public StringProperty getSurnameProperty()
+	{
 		return surname;
+	}
+	
+	public void setForename(final String forename)
+	{
+		this.forename.set(forename);
+	}
+	
+	public void setSurname(final String surname)
+	{
+		this.surname.set(surname);
 	}
 	
 	@Override 
 	public int hashCode()
 	{
-		return (this.forename + this.surname).hashCode();
+		return (this.getForename() + this.getSurname()).hashCode();
 	}
 }

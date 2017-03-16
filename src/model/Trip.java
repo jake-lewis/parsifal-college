@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public abstract class Trip
 {
-	private Map<UUID, Booking> bookings = new HashMap<>();
+	private final Map<UUID, Booking> bookings = new HashMap<>();
 	
-	public void addBooking(Booking booking)
+	public void addBooking(final Booking booking)
 	{
 		this.bookings.put(booking.getStudent().getId(), booking);
 	}

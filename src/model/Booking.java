@@ -2,11 +2,11 @@ package model;
 
 public class Booking
 {
-	private Student student;
+	private final Student student;
 	private boolean paid;
 	private boolean authorized;
 	
-	public Booking(Student student)
+	public Booking(final Student student)
 	{
 		this.student = student;
 		this.paid = false;
@@ -23,7 +23,7 @@ public class Booking
 		return this.paid;
 	}
 	
-	public void setPaid(boolean paid)
+	public void setPaid(final boolean paid)
 	{
 		this.paid = paid;
 	}
@@ -33,7 +33,7 @@ public class Booking
 		return this.authorized;
 	}
 	
-	public void setAuthorized(boolean authorized)
+	public void setAuthorized(final boolean authorized)
 	{
 		this.authorized = authorized;
 	}

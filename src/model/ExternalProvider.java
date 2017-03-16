@@ -1,6 +1,6 @@
 package model;
 
-public class ExternalProvider implements TripOrganiser
+public class ExternalProvider implements TripOrganizer
 {
 	
 }

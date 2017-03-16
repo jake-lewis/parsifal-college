@@ -8,7 +8,6 @@ import javafx.scene.layout.BorderPane;
 
 public class MainController extends BorderPane implements Initializable
 {
-
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources)
 	{

@@ -32,7 +32,6 @@ public class TeacherController extends BorderPane implements Initializable
 	{
 		Forename.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Forename"));
 		Surname.setCellValueFactory(new PropertyValueFactory<Teacher, String>("Surname"));
-		System.out.println(this.getClass().getSimpleName() + ".initialize");
 		
 		table.getItems().setAll(parseTeacherList());
 	}

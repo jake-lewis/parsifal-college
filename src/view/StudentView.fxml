@@ -19,9 +19,9 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="create" mnemonicParsing="false" text="Create Student" />
-            <Button mnemonicParsing="false" text="Edit Student" />
-            <Button mnemonicParsing="false" text="Delete Student" />
+            <Button fx:id="create" mnemonicParsing="false" onAction="#handleNewStudent" text="Create Student" />
+            <Button mnemonicParsing="false" onAction="#handleEditStudent" text="Edit Student" />
+            <Button mnemonicParsing="false" onAction="#handleDeletePerson" text="Delete Student" />
          </children>
       </VBox>
    </right>

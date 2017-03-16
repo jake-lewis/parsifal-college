@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 public class ParsifalCollegeApp extends Application
 {
+	private static Stage primaryStage;
 
 	// annoying Eclipse launch workaround:
     public static void main(final String[] args) {launch(args);}
@@ -20,6 +21,8 @@ public class ParsifalCollegeApp extends Application
 	@Override
 	public void start(final Stage primaryStage) throws Exception
 	{
+		ParsifalCollegeApp.primaryStage = primaryStage;
+		
 		//initialise main frame
 		final BorderPane root = new BorderPane();
 		
@@ -36,6 +39,11 @@ public class ParsifalCollegeApp extends Application
         primaryStage.show();
 	}
 
+	public static Stage getPrimaryStage()
+	{
+		return primaryStage;
+	}
+	
 	private void populateTabs(final TabPane tabbedPane) throws IOException
 	{
 		final ObservableList<Tab> tabs = tabbedPane.getTabs();

@@ -1,26 +1,25 @@
 package factories;
 
-import model.ExternalProvider;
-import model.Teacher;
-import model.TripOrganizer;
+import model.Trip;
 
-public abstract class TripFactory implements TripProvider
+public class TripFactory
 {
+	private static TripFactory INSTANCE;
 	
+	private TripFactory() {}
 	
-	static final TripFactory getFactory(final TripOrganizer organiser)
+	static TripFactory getInstance()
 	{
-		if (organiser instanceof Teacher)
+		if (null == INSTANCE)
 		{
-			return InternallyProvidedTripFactory.getInstance();
+			INSTANCE = new TripFactory();
 		}
-		else if (organiser instanceof ExternalProvider)
-		{
-			return ExternallyProvidedTripFactory.getInstance();
-		}
-		else
-		{
-			throw new IllegalArgumentException("The TripOrganiser passed into the TripFactory was not recognised");
-		}
+
+		return INSTANCE;
+	}
+
+	public Trip getTrip()
+	{
+		return new Trip();
 	}
 }

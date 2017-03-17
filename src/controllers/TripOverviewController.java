@@ -1,13 +1,21 @@
 package controllers;
 
 import application.MainApp;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import model.Trip;
+import model.TripOrganizer;
 
 public class TripOverviewController {
     @FXML
@@ -33,6 +41,12 @@ public class TripOverviewController {
     private Label miscCostsLabel;
     @FXML
     private Label totalCostLabel;
+    @FXML
+    private RadioButton radioTeacher;
+    @FXML
+    private RadioButton radioExternalProvider;
+    @FXML
+    private ComboBox<TripOrganizer> comboOrganizer;
 
     // Reference to the main application.
     private MainApp mainApp;
@@ -72,6 +86,25 @@ public class TripOverviewController {
 
         // Add observable list data to the table
         tripTable.setItems(mainApp.getTripData());
+        
+        final ToggleGroup group = new ToggleGroup();
+        radioTeacher.setToggleGroup(group);
+        radioExternalProvider.setToggleGroup(group);
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            @Override
+			public void changed(final ObservableValue<? extends Toggle> ov, final Toggle old_toggle, final Toggle new_toggle) {
+                 if (group.getSelectedToggle() == radioTeacher) 
+                 {
+                	 comboOrganizer.setItems(FXCollections.observableArrayList(mainApp.getTeacherData()));
+                 }
+                 else
+                 {
+                	 comboOrganizer.setItems(FXCollections.observableArrayList(mainApp.getExternalProviderData()));
+                 }
+             } 
+        });
+        
+        group.selectToggle(radioTeacher);
     }
     
     /**
@@ -85,7 +118,7 @@ public class TripOverviewController {
             // Fill the labels with info from the trip object.
             tripNameLabel.setText(trip.getTripName());
             organizerNameLabel.setText(trip.getOrganizerName());
-            residentialLabel.setText(trip.getResidential().toString());
+            residentialLabel.setText(String.valueOf(trip.getResidential()));
             entranceFeeLabel.setText(trip.getEntranceFee());
             transportFeeLabel.setText(trip.getTransportFee());
             venueFeeLabel.setText(trip.getVenueFee());
@@ -129,11 +162,57 @@ public class TripOverviewController {
      * details for a new trip.
      */
     @FXML
-    private void handleNewTrip() {
+    private void handleNewDayTrip() {
         final Trip tempTrip = new Trip();
-        final boolean okClicked = mainApp.showTripEditDialog(tempTrip);
-        if (okClicked) {
-            mainApp.getTripData().add(tempTrip);
+        tempTrip.setResidential(new Boolean(false));
+        if (null != comboOrganizer.getSelectionModel().getSelectedItem())
+        {
+        	tempTrip.setOrganizer(comboOrganizer.getSelectionModel().getSelectedItem());
+            final boolean okClicked = mainApp.showTripEditDialog(tempTrip);
+            if (okClicked) {
+                mainApp.getTripData().add(tempTrip);
+            }
+        }
+        else 
+        {
+            // Nothing selected.
+            final Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Organiser Selected");
+            alert.setContentText("Please select a trip organiser in the drop down.");
+            
+            alert.showAndWait();
+        }
+    }
+    
+    /**
+     * Called when the user clicks the new button. Opens a dialog to edit
+     * details for a new trip.
+     */
+    @FXML
+    private void handleNewResidential() {
+        final Trip tempTrip = new Trip();
+        tempTrip.setResidential(new Boolean(true));
+        
+        if (null != comboOrganizer.getSelectionModel().getSelectedItem())
+        {
+        	tempTrip.setOrganizer(comboOrganizer.getSelectionModel().getSelectedItem());
+            final boolean okClicked = mainApp.showTripEditDialog(tempTrip);
+            if (okClicked) {
+                mainApp.getTripData().add(tempTrip);
+            }
+        }
+        else 
+        {
+            // Nothing selected.
+            final Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Organiser Selected");
+            alert.setContentText("Please select a trip organiser in the drop down.");
+            
+            alert.showAndWait();
         }
     }
 

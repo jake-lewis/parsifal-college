@@ -1,8 +1,11 @@
 package model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Booking
 {
-	private final Student student;
+	private Student student;
 	private boolean paid;
 	private boolean authorized;
 	
@@ -13,6 +16,11 @@ public class Booking
 		this.authorized = false;
 	}
 	
+	public Booking()
+	{
+		this(null);
+	}
+
 	public Student getStudent()
 	{
 		return this.student;
@@ -36,5 +44,15 @@ public class Booking
 	public void setAuthorized(final boolean authorized)
 	{
 		this.authorized = authorized;
+	}
+
+	public StringProperty getStudentNameProperty()
+	{
+		return new SimpleStringProperty(this.student.toString());
+	}
+
+	public void setStudent(final Student selectedItem)
+	{
+		this.student = selectedItem;
 	}
 }

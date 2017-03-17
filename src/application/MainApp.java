@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 
+import controllers.BookingEditDialogController;
+import controllers.BookingOverviewController;
 import controllers.ExternalProviderEditDialogController;
 import controllers.ExternalProviderOverviewController;
 import controllers.StudentEditDialogController;
@@ -21,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Booking;
 import model.ExternalProvider;
 import model.Student;
 import model.Teacher;
@@ -38,6 +41,7 @@ public class MainApp extends Application {
     private final ObservableList<Teacher> teacherData = FXCollections.observableArrayList();
     private final ObservableList<ExternalProvider> externalProviderData = FXCollections.observableArrayList();
     private final ObservableList<Trip> tripData = FXCollections.observableArrayList();
+    
 
     /**
      * Constructor
@@ -70,6 +74,7 @@ public class MainApp extends Application {
         showTeacherOverview();
         showExternalProviderOverview();
         showTripOverview();
+        showBookingOverview();
     }
 
     /**
@@ -180,6 +185,30 @@ public class MainApp extends Application {
 
             // Give the controller access to the main app.
             final TripOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows the trip provider overview inside the root layout.
+     */
+    public void showBookingOverview() {
+        try {
+            // Load booking overview.
+            final FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/BookingOverview.fxml"));
+            final AnchorPane bookingOverview = (AnchorPane) loader.load();
+
+            // Set externalProvider overview into the first root tab
+            final TabPane tabPane = (TabPane) rootLayout.getCenter();
+            final ObservableList<Tab> tabs = tabPane.getTabs();
+            tabs.get(4).setContent(bookingOverview);
+
+            // Give the controller access to the main app.
+            final BookingOverviewController controller = loader.getController();
             controller.setMainApp(this);
 
         } catch (final IOException e) {
@@ -313,7 +342,9 @@ public class MainApp extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             final FXMLLoader loader = new FXMLLoader();
+            
             loader.setLocation(MainApp.class.getResource("../view/TripEditDialog.fxml"));
+            
             final AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
@@ -328,6 +359,45 @@ public class MainApp extends Application {
             final TripEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setTrip(trip);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (final IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    /**
+     * Opens a dialog to edit details for the specified person. If the user
+     * clicks OK, the changes are saved into the provided person object and true
+     * is returned.
+     * 
+     * @param booking the booking object to be edited
+     * @return true if the user clicked OK, false otherwise.
+     */
+    public boolean showBookingEditDialog(final Booking booking) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            final FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/BookingEditDialog.fxml"));
+            final AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            final Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Booking");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            final Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            final BookingEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setBooking(booking);
+            controller.setMainApp(this);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();

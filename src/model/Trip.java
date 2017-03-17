@@ -6,23 +6,32 @@ import java.util.UUID;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Trip
 {
 	private final Map<UUID, Booking> bookings = new HashMap<>();
 	
-	private StringProperty tripName;
-	private StringProperty organizerName;
+	private final StringProperty tripName;
+	private final StringProperty organizerName;
+	private TripOrganizer organizer;
 	private Boolean residential;
 	private Double entranceFee;
 	private Double transportFee;
 	private Double venueFee;
 	private Double miscCosts;
+	private final ObservableList<Booking> bookingData = FXCollections.observableArrayList();
 	
 	public Trip()
 	{
-		this.tripName = new SimpleStringProperty(null);
-		this.organizerName = new SimpleStringProperty(null);
+		this(null, null);
+	}
+	
+	public Trip(final String tripName, final String organizerName)
+	{
+		this.tripName = new SimpleStringProperty(tripName);
+		this.organizerName = new SimpleStringProperty(organizerName);
 	}
 	
 	public void addBooking(final Booking booking)
@@ -32,7 +41,7 @@ public class Trip
 	
 	public String getTripName()
 	{
-		return this.getTripNameProperty().get();
+		return this.tripName.get();
 	}
 
 	/**
@@ -48,12 +57,12 @@ public class Trip
 	 */
 	public void setTripName(final String tripName)
 	{
-		this.tripName = new SimpleStringProperty();
+		this.tripName.set(tripName);
 	}
 	
 	public String getOrganizerName()
 	{
-		return this.getOrganizerNameProperty().get();
+		return this.organizerName.get();
 	}
 
 	/**
@@ -64,12 +73,10 @@ public class Trip
 		return organizerName;
 	}
 
-	/**
-	 * @param organizerName the organizerName to set
-	 */
-	public void setOrganizerName(final StringProperty organizerName)
+	public void setOrganizer(final TripOrganizer organizer)
 	{
-		this.organizerName = organizerName;
+		this.organizer = organizer;
+		this.organizerName.set(this.organizer.toString());
 	}
 	
 	public Boolean getResidential()
@@ -162,5 +169,14 @@ public class Trip
 		return String.valueOf(entranceFee + transportFee + venueFee + miscCosts);
 	}
 
+	public ObservableList<Booking> getBookingData()
+	{
+		return this.bookingData;
+	}
 	
+	@Override
+	public String toString()
+	{
+		return this.getTripName();
+	}
 }

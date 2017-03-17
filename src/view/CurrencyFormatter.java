@@ -8,10 +8,9 @@ import javafx.util.StringConverter;
 
 public class CurrencyFormatter extends TextFormatter<Double> {
     private static final double DEFAULT_VALUE = 0.00d;
-    private static final String CURRENCY_SYMBOL = "\u00A3"; // british pound
 
     private static final DecimalFormat strictZeroDecimalFormat  
-        = new DecimalFormat(CURRENCY_SYMBOL + "###,##0.00");
+        = new DecimalFormat("###,##0.00");
 
     public CurrencyFormatter() {
         super(

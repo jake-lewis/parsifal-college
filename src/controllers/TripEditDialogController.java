@@ -14,12 +14,6 @@ public class TripEditDialogController {
     private TextField tripNameField;
 
     @FXML
-    private TextField organizerNameField;
-
-    @FXML
-    private TextField residentialField;
-
-    @FXML
     private TextField entranceFeeField;
 
     @FXML

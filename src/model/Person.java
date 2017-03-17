@@ -58,6 +58,12 @@ public abstract class Person
 		this.surname.set(surname);
 	}
 	
+	@Override
+	public String toString()
+	{
+		return this.getForename() + " " + this.getSurname();
+	}
+	
 	@Override 
 	public int hashCode()
 	{

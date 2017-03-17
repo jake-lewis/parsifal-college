@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 
+import controllers.ExternalProviderEditDialogController;
+import controllers.ExternalProviderOverviewController;
 import controllers.StudentEditDialogController;
 import controllers.StudentOverviewController;
 import controllers.TeacherEditDialogController;
@@ -38,12 +40,11 @@ public class MainApp extends Application {
      */
     public MainApp() {
         // Add some sample data
-        studentData.add(new Student("0234908234", "Hans", "Muster"));
-        studentData.add(new Student("98234987", "Ruth", "Mueller"));
-        studentData.add(new Student("98244987", "Heinz", "Kurz"));
-        studentData.add(new Student("12356777", "Cornelia", "Meier"));
+        studentData.add(new Student("Heinz", "Kurz", "07983244567"));
+        studentData.add(new Student("Cornelia", "Meier", "12356777"));
         teacherData.add(new Teacher("Simon", "Rood"));
         teacherData.add(new Teacher("Ben", "Clist"));
+        externalProviderData.add(new ExternalProvider("Bob", "Roos", "0120223545"));
     }
 
     /**
@@ -51,7 +52,7 @@ public class MainApp extends Application {
      * @return
      */
     public ObservableList<Student> getStudentData() {
-        return studentData;
+        return this.studentData;
     }
 
     @Override
@@ -63,6 +64,7 @@ public class MainApp extends Application {
 
         showStudentOverview();
         showTeacherOverview();
+        showExternalProviderOverview();
     }
 
     /**
@@ -125,6 +127,30 @@ public class MainApp extends Application {
 
             // Give the controller access to the main app.
             final TeacherOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows the external provider overview inside the root layout.
+     */
+    public void showExternalProviderOverview() {
+        try {
+            // Load teacher overview.
+            final FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/ExternalProviderOverview.fxml"));
+            final AnchorPane externalProviderOverview = (AnchorPane) loader.load();
+
+            // Set externalProvider overview into the first root tab
+            final TabPane tabPane = (TabPane) rootLayout.getCenter();
+            final ObservableList<Tab> tabs = tabPane.getTabs();
+            tabs.get(2).setContent(externalProviderOverview);
+
+            // Give the controller access to the main app.
+            final ExternalProviderOverviewController controller = loader.getController();
             controller.setMainApp(this);
 
         } catch (final IOException e) {
@@ -207,6 +233,44 @@ public class MainApp extends Application {
             return false;
         }
     }
+    
+    /**
+     * Opens a dialog to edit details for the specified person. If the user
+     * clicks OK, the changes are saved into the provided person object and true
+     * is returned.
+     * 
+     * @param externalProvider the person object to be edited
+     * @return true if the user clicked OK, false otherwise.
+     */
+    public boolean showExternalProviderEditDialog(final ExternalProvider externalProvider) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            final FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/ExternalProviderEditDialog.fxml"));
+            final AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            final Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit External Provider");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            final Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            final ExternalProviderEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setExternalProvider(externalProvider);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (final IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /**
      * Returns the main stage.
@@ -222,6 +286,11 @@ public class MainApp extends Application {
 
 	public ObservableList<Teacher> getTeacherData()
 	{
-		return teacherData;
+		return this.teacherData;
+	}
+	
+	public ObservableList<ExternalProvider> getExternalProviderData()
+	{
+		return this.externalProviderData;
 	}
 }

@@ -4,8 +4,10 @@ import model.ExternalProvider;
 import model.Teacher;
 import model.TripOrganizer;
 
-public abstract class TripFactory
+public abstract class TripFactory implements TripProvider
 {
+	
+	
 	static final TripFactory getFactory(final TripOrganizer organiser)
 	{
 		if (organiser instanceof Teacher)

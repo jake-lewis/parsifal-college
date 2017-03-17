@@ -1,5 +1,7 @@
 package factories;
 
+import model.Trip;
+
 public class ExternallyProvidedTripFactory extends TripFactory
 {
 	private static ExternallyProvidedTripFactory INSTANCE;
@@ -12,5 +14,11 @@ public class ExternallyProvidedTripFactory extends TripFactory
 		}
 
 		return INSTANCE;
+	}
+
+	@Override
+	public Trip getTrip()
+	{
+		return new Trip();
 	}
 }

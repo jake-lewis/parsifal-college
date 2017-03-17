@@ -15,10 +15,10 @@ public class TripOverviewController {
     @FXML
     private TableColumn<Trip, String> tripNameColumn;
     @FXML
-    private TableColumn<Trip, String> residentialColumn;
+    private TableColumn<Trip, String> organizerNameColumn;
 
     @FXML
-    private Label tripLabel;
+    private Label tripNameLabel;
     @FXML
     private Label organizerNameLabel;
     @FXML
@@ -51,8 +51,8 @@ public class TripOverviewController {
     @FXML
     private void initialize() {
         // Initialize the trip table with the two columns.
-    	tripNameColumn.setCellValueFactory(cellData -> cellData.getValue().getForenameProperty());
-        residentialColumn.setCellValueFactory(cellData -> cellData.getValue().getSurnameProperty());
+    	tripNameColumn.setCellValueFactory(cellData -> cellData.getValue().getTripNameProperty());
+    	organizerNameColumn.setCellValueFactory(cellData -> cellData.getValue().getOrganizerNameProperty());
         
         // Clear trip details.
         showTripDetails(null);
@@ -83,14 +83,24 @@ public class TripOverviewController {
     private void showTripDetails(final Trip trip) {
         if (trip != null) {
             // Fill the labels with info from the trip object.
-            tripLabel.setText(trip.getForename());
-            organizerNameLabel.setText(trip.getSurname());
-            residentialLabel.setText(trip.getMobile());
+            tripNameLabel.setText(trip.getTripName());
+            organizerNameLabel.setText(trip.getOrganizerName());
+            residentialLabel.setText(trip.getResidential().toString());
+            entranceFeeLabel.setText(trip.getEntranceFee());
+            transportFeeLabel.setText(trip.getTransportFee());
+            venueFeeLabel.setText(trip.getVenueFee());
+            miscCostsLabel.setText(trip.getMiscCosts());
+            totalCostLabel.setText(trip.getTotalCost());
         } else {
             // Trip is null, remove all the text.
-            tripLabel.setText("");
+            tripNameLabel.setText("");
             organizerNameLabel.setText("");
             residentialLabel.setText("");
+            entranceFeeLabel.setText("");
+            transportFeeLabel.setText("");
+            venueFeeLabel.setText("");
+            miscCostsLabel.setText("");
+            totalCostLabel.setText("");
         }
     }
     

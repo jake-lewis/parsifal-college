@@ -8,6 +8,8 @@ import controllers.StudentEditDialogController;
 import controllers.StudentOverviewController;
 import controllers.TeacherEditDialogController;
 import controllers.TeacherOverviewController;
+import controllers.TripEditDialogController;
+import controllers.TripOverviewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +24,7 @@ import javafx.stage.Stage;
 import model.ExternalProvider;
 import model.Student;
 import model.Teacher;
+import model.Trip;
 
 public class MainApp extends Application {
 
@@ -34,6 +37,7 @@ public class MainApp extends Application {
     private final ObservableList<Student> studentData = FXCollections.observableArrayList();
     private final ObservableList<Teacher> teacherData = FXCollections.observableArrayList();
     private final ObservableList<ExternalProvider> externalProviderData = FXCollections.observableArrayList();
+    private final ObservableList<Trip> tripData = FXCollections.observableArrayList();
 
     /**
      * Constructor
@@ -65,6 +69,7 @@ public class MainApp extends Application {
         showStudentOverview();
         showTeacherOverview();
         showExternalProviderOverview();
+        showTripOverview();
     }
 
     /**
@@ -151,6 +156,30 @@ public class MainApp extends Application {
 
             // Give the controller access to the main app.
             final ExternalProviderOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows the trip provider overview inside the root layout.
+     */
+    public void showTripOverview() {
+        try {
+            // Load teacher overview.
+            final FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/TripOverview.fxml"));
+            final AnchorPane tripOverview = (AnchorPane) loader.load();
+
+            // Set externalProvider overview into the first root tab
+            final TabPane tabPane = (TabPane) rootLayout.getCenter();
+            final ObservableList<Tab> tabs = tabPane.getTabs();
+            tabs.get(3).setContent(tripOverview);
+
+            // Give the controller access to the main app.
+            final TripOverviewController controller = loader.getController();
             controller.setMainApp(this);
 
         } catch (final IOException e) {
@@ -271,6 +300,44 @@ public class MainApp extends Application {
             return false;
         }
     }
+    
+    /**
+     * Opens a dialog to edit details for the specified trip. If the user
+     * clicks OK, the changes are saved into the provided trip object and true
+     * is returned.
+     * 
+     * @param trip the trip object to be edited
+     * @return true if the user clicked OK, false otherwise.
+     */
+    public boolean showTripEditDialog(final Trip trip) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            final FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/TripEditDialog.fxml"));
+            final AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            final Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Trip");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            final Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            final TripEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setTrip(trip);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (final IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /**
      * Returns the main stage.
@@ -292,5 +359,10 @@ public class MainApp extends Application {
 	public ObservableList<ExternalProvider> getExternalProviderData()
 	{
 		return this.externalProviderData;
+	}
+	
+	public ObservableList<Trip> getTripData()
+	{
+		return this.tripData;
 	}
 }

@@ -19,6 +19,12 @@ public class Trip
 	private Double venueFee;
 	private Double miscCosts;
 	
+	public Trip()
+	{
+		this.tripName = new SimpleStringProperty(null);
+		this.organizerName = new SimpleStringProperty(null);
+	}
+	
 	public void addBooking(final Booking booking)
 	{
 		this.bookings.put(booking.getStudent().getId(), booking);

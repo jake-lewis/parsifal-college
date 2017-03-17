@@ -60,14 +60,14 @@ public class TripEditDialogController {
     public void setTrip(final Trip trip) {
         this.trip = trip;
 
-        tripNameField.setText(this.trip.getTripName());
-        entranceFeeField.setText(this.trip.getEntranceFee());
+        tripNameField.setText(trip.getTripName());
+        entranceFeeField.setText(trip.getEntranceFee());
         entranceFeeField.setTextFormatter(new CurrencyFormatter());
-        transportFeeField.setText(this.trip.getTransportFee());
+        transportFeeField.setText(trip.getTransportFee());
         transportFeeField.setTextFormatter(new CurrencyFormatter());
-        venueFeeField.setText(this.trip.getVenueFee());
+        venueFeeField.setText(trip.getVenueFee());
         venueFeeField.setTextFormatter(new CurrencyFormatter());
-        miscCostsField.setText(this.trip.getMiscCosts());
+        miscCostsField.setText(trip.getMiscCosts());
         miscCostsField.setTextFormatter(new CurrencyFormatter());
     }
     

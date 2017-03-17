@@ -7,7 +7,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
 
 public class CurrencyFormatter extends TextFormatter<Double> {
-    private static final double DEFAULT_VALUE = 5.00d;
+    private static final double DEFAULT_VALUE = 0.00d;
     private static final String CURRENCY_SYMBOL = "\u00A3"; // british pound
 
     private static final DecimalFormat strictZeroDecimalFormat  
